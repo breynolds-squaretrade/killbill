@@ -130,7 +130,7 @@ public class IncompletePaymentAttemptTask extends CompletionTaskBase<PaymentAtte
             log.info("Completing attemptId='{}'", attempt.getId());
 
             final Account account = accountInternalApi.getAccountById(attempt.getAccountId(), tenantContext);
-            final boolean isApiPayment = true; // unclear
+            final boolean isApiPayment = false; // Squaretrade modification per Pierre
             final PaymentStateControlContext paymentStateContext = new PaymentStateControlContext(attempt.toPaymentControlPluginNames(),
                                                                                                   isApiPayment,
                                                                                                   null,
