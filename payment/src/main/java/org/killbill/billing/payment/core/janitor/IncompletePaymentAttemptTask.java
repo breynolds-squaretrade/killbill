@@ -85,6 +85,7 @@ public class IncompletePaymentAttemptTask extends CompletionTaskBase<PaymentAtte
         this.pluginControlledPaymentAutomatonRunner = pluginControlledPaymentAutomatonRunner;
     }
 
+
     @Override
     public Iterable<PaymentAttemptModelDao> getItemsForIteration() {
         final Pagination<PaymentAttemptModelDao> incompleteAttempts = paymentDao.getPaymentAttemptsByStateAcrossTenants(retrySMHelper.getInitialState().getName(), getCreatedDateBefore(), 0L, MAX_ATTEMPTS_PER_ITERATIONS);
@@ -130,7 +131,11 @@ public class IncompletePaymentAttemptTask extends CompletionTaskBase<PaymentAtte
             log.info("Completing attemptId='{}'", attempt.getId());
 
             final Account account = accountInternalApi.getAccountById(attempt.getAccountId(), tenantContext);
-            final boolean isApiPayment = true; // unclear
+
+            // Squaretrade modification per Pierre
+            // TODO: must be a better way to do this that we can share back to the killbill team
+            final boolean isApiPayment = false;
+
             final PaymentStateControlContext paymentStateContext = new PaymentStateControlContext(attempt.toPaymentControlPluginNames(),
                                                                                                   isApiPayment,
                                                                                                   null,
